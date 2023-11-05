@@ -44,3 +44,16 @@ GO111MODULE=on CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -C "cmd/repos" -ld
 ```bash
 go -C internal/repos/ test -bench=. -benchmem
 ```
+Вывод результатов
+```bash
+RunSimple elapsed time: 15.316222158s
+goos: linux
+goarch: amd64
+pkg: gitmic/internal/repos
+cpu: Intel(R) Core(TM) i5-8400 CPU @ 2.80GHz
+BenchmarkRunSimple-6                   1        15316264658 ns/op        8737640 B/op      52356 allocs/op
+RunConcurrency elapsed time: 1.114834146s
+BenchmarkRunConcurrency-6              1        1114883946 ns/op          505480 B/op       1284 allocs/op
+PASS
+ok      gitmic/internal/repos   16.438s
+```
