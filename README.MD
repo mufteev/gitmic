@@ -39,3 +39,8 @@ go run cmd/repos/main.go
 GO111MODULE=on CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -C "cmd/repos" -ldflags "-s -w" -o ../../repos
 ./repos
 ```
+
+## Прогон тестов
+```bash
+go -C internal/repos/ test -bench=. -benchmem
+```
