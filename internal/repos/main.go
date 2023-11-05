@@ -118,7 +118,7 @@ func RunConcurrency(isPrintData bool) error {
 				ii2 := i2
 
 				// Запускаем асинхронную горутину
-				g.Go(func() error {
+				g2.Go(func() error {
 					// Получаем текущего Участника
 					contrib := (*contribs)[ii2]
 
