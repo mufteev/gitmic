@@ -1,14 +1,15 @@
 package api
 
 import (
+	"context"
 	"fmt"
 	"gitmic/api/users"
 )
 
 // https://docs.github.com/en/rest/users/users?apiVersion=2022-11-28#get-a-user
-func (ga *GitApi) GetUserByLogin(login string) (*users.User, error) {
+func (ga *GitApi) GetUserByLogin(ctx context.Context, login string) (*users.User, error) {
 	// Получаем подготовленный HTTP-запрос по указанным параметрам
-	req, err := users.MakeRequest(ga.Host, login)
+	req, err := users.MakeRequest(ctx, ga.Host, login)
 	if err != nil {
 		return nil, fmt.Errorf("make request: %w", err)
 	}

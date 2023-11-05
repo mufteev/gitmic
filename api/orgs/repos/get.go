@@ -1,6 +1,7 @@
 package repos
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -19,7 +20,7 @@ type Repo struct {
 }
 
 // Подготовка HTTP-запроса к Репозиториям организации в GitHub
-func MakeRequest(host, org string, page, perPage int) (*http.Request, error) {
+func MakeRequest(ctx context.Context, host, org string, page, perPage int) (*http.Request, error) {
 	// Собираем первоначальный URL
 	queryUrl := fmt.Sprintf("%s/orgs/%s/repos", host, org)
 
@@ -40,7 +41,7 @@ func MakeRequest(host, org string, page, perPage int) (*http.Request, error) {
 
 	// Объект URL приводим к строке - это и будет итоговый URL-запрос
 	// В качестве Body нам нечего передать в метод GET
-	req, err := http.NewRequest(http.MethodGet, u.String(), nil)
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, u.String(), nil)
 	if err != nil {
 		return nil, fmt.Errorf("new request: %w", err)
 	}

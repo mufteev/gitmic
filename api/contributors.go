@@ -1,14 +1,15 @@
 package api
 
 import (
+	"context"
 	"fmt"
 	"gitmic/api/repos/contributors"
 )
 
 // https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#list-repository-contributors
-func (ga *GitApi) GetContributorsByRepo(repo string) (*[]*contributors.Contributor, error) {
+func (ga *GitApi) GetContributorsByRepo(ctx context.Context, repo string) (*[]*contributors.Contributor, error) {
 	// Получаем подготовленный HTTP-запрос по указанным параметрам
-	req, err := contributors.MakeRequest(ga.Host, repo, 1, 10)
+	req, err := contributors.MakeRequest(ctx, ga.Host, repo, 1, 10)
 	if err != nil {
 		return nil, fmt.Errorf("make request: %w", err)
 	}
