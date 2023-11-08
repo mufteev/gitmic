@@ -13,7 +13,7 @@ import (
 func BenchmarkRunSimple(b *testing.B) {
 	t := time.Now()
 
-	RunSimple(false)
+	_ = RunSimple(false)
 
 	elapsed := time.Since(t)
 
@@ -25,7 +25,7 @@ func BenchmarkRunSimple(b *testing.B) {
 func BenchmarkRunConcurrency(b *testing.B) {
 	t := time.Now()
 
-	RunConcurrency(false)
+	_ = RunConcurrency(false)
 
 	elapsed := time.Since(t)
 
