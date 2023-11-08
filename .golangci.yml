@@ -1,0 +1,11 @@
+linters:
+  enable:
+    - wsl
+    - prealloc
+    - bodyclose
+
+linters-settings:
+  govet:
+    enable:
+      - fieldalignment
+  

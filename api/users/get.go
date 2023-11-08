@@ -15,12 +15,12 @@ import (
 // https://www.digitalocean.com/community/tutorials/how-to-use-struct-tags-in-go-ru
 // https://pkg.go.dev/encoding/json#:~:text=The%20encoding%20of%20each%20struct%20field%20can%20be%20customized%20by%20the%20format%20string%20stored
 type User struct {
-	Id       int     `json:"id"`
-	Login    string  `json:"login"`
 	Name     *string `json:"name"`
 	Location *string `json:"location"`
 	Bio      *string `json:"bio"`
 	Company  *string `json:"company"`
+	Login    string  `json:"login"`
+	Id       int     `json:"id"`
 }
 
 // Подготовка HTTP-запроса к Пользователю GitHub
@@ -64,16 +64,19 @@ func (u *User) GetDescribe() string {
 		descriptions[cnt] = color.BlueString("name=%s", *u.Name)
 		cnt++
 	}
+
 	if u.Location != nil {
 		// description[cnt] = fmt.Sprintf("loc=%s", *u.Location)
 		descriptions[cnt] = color.GreenString("loc=%s", *u.Location)
 		cnt++
 	}
+
 	if u.Bio != nil {
 		// description[cnt] = fmt.Sprintf("bio=%s", *u.Bio)
 		descriptions[cnt] = color.MagentaString("bio=%s", *u.Bio)
 		cnt++
 	}
+
 	if u.Company != nil {
 		// description[cnt] = fmt.Sprintf("comp=%s", *u.Company)
 		descriptions[cnt] = color.CyanString("comp=%s", *u.Company)

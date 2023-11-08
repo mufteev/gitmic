@@ -36,7 +36,7 @@ go run cmd/repos/main.go
 ## Сборка проекта и запуск собранного проекта
 > Почитать про указанные переменные перед командой `go build`
 ```bash
-GO111MODULE=on CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -C "cmd/repos" -ldflags "-s -w" -o ../../repos
+GOGC=off GO111MODULE=on CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -C "cmd/repos" -ldflags "-s -w" -o ../../repos
 ./repos
 ```
 
@@ -56,4 +56,12 @@ RunConcurrency elapsed time: 1.114834146s
 BenchmarkRunConcurrency-6              1        1114883946 ns/op          505480 B/op       1284 allocs/op
 PASS
 ok      gitmic/internal/repos   16.438s
+```
+
+## 
+```
+go run cmd/repos/main.go -cpuprofile cpu.prof -memprofile mem.prof
+go tool pprof mem.prof
+top10 -cum
+list gitmic/api.doRequest
 ```

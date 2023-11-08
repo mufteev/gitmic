@@ -12,10 +12,10 @@ import (
 // https://www.digitalocean.com/community/tutorials/how-to-use-struct-tags-in-go-ru
 // https://pkg.go.dev/encoding/json#:~:text=The%20encoding%20of%20each%20struct%20field%20can%20be%20customized%20by%20the%20format%20string%20stored
 type Repo struct {
-	Id       int    `json:"id"`
 	Name     string `json:"name"`
 	FullName string `json:"full_name"`
 	HtmlUrl  string `json:"html_url"`
+	Id       int    `json:"id"`
 	Private  bool   `json:"private"`
 }
 

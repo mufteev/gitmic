@@ -13,8 +13,8 @@ import (
 // https://pkg.go.dev/encoding/json#:~:text=The%20encoding%20of%20each%20struct%20field%20can%20be%20customized%20by%20the%20format%20string%20stored
 
 type Contributor struct {
-	Id    int    `json:"id"`
 	Login string `json:"login"`
+	Id    int    `json:"id"`
 }
 
 // Подготовка HTTP-запроса к Участникам репозитория в GitHub
