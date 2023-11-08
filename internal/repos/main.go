@@ -22,7 +22,7 @@ func RunSimple(isPrintData bool) error {
 	}
 
 	// Получаем список репозиториев
-	repos, err := ga.GetReposByOrg(ctx, org)
+	repos, err := ga.GetReposByOrg(ctx, org, 2, 10)
 	if err != nil {
 		return fmt.Errorf("get repos by org `%s`: %w", org, err)
 	}
@@ -36,7 +36,7 @@ func RunSimple(isPrintData bool) error {
 		}
 
 		// Получаем список участников
-		contribs, err := ga.GetContributorsByRepo(ctx, repo.FullName)
+		contribs, err := ga.GetContributorsByRepo(ctx, repo.FullName, 2, 10)
 		if err != nil {
 			return fmt.Errorf("get contribs for `%s`: %w", repo.FullName, err)
 		}
@@ -54,7 +54,6 @@ func RunSimple(isPrintData bool) error {
 				fmt.Printf("\t• %s\n", user.GetDescribe())
 			}
 		}
-
 	}
 
 	return nil
@@ -70,7 +69,7 @@ func RunConcurrency(isPrintData bool) error {
 	}
 
 	// Получаем список репозиториев
-	repos, err := ga.GetReposByOrg(ctx, org)
+	repos, err := ga.GetReposByOrg(ctx, org, 2, 10)
 	if err != nil {
 		return fmt.Errorf("get repos by org `%s`: %w", org, err)
 	}
@@ -102,7 +101,7 @@ func RunConcurrency(isPrintData bool) error {
 			repo := (*repos)[ii]
 
 			// Получаем список Участников
-			contribs, err := ga.GetContributorsByRepo(ctx, repo.FullName)
+			contribs, err := ga.GetContributorsByRepo(ctx, repo.FullName, 2, 10)
 			if err != nil {
 				return fmt.Errorf("get contribs for `%s`: %w", repo.FullName, err)
 			}

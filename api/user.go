@@ -21,7 +21,7 @@ func (ga *GitApi) GetUserByLogin(ctx context.Context, login string) (*users.User
 	var user users.User
 
 	// Выполняем запрос результат которого запишется в структуру
-	if err := doRequest(req, &user); err != nil {
+	if _, err := doRequest(req, &user); err != nil {
 		return nil, fmt.Errorf("do request: %w", err)
 	}
 
