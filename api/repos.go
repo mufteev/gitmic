@@ -4,11 +4,42 @@ import (
 	"context"
 	"fmt"
 	"gitmic/api/orgs/repos"
+	"gitmic/workerpool"
 	"net/http"
 	"sync"
 
 	"golang.org/x/sync/errgroup"
 )
+
+func (ga *GitApi) GetReposByOrgPool(ctx context.Context, org string, to int) error {
+	wg := sync.WaitGroup{}
+
+	for i := 1; i <= to; i++ {
+		wg.Add(1)
+		ii := i
+
+		t := workerpool.NewTask(func() (interface{}, error) {
+			defer wg.Done()
+
+			repos, _, err := getReposByOrg(ctx, ga, org, ii, 1)
+			if err != nil {
+				return nil, fmt.Errorf("get repos by org: %w", err)
+			}
+
+			fmt.Printf("%s\n", (*repos)[0].FullName)
+
+			// time.Sleep(time.Second * 10)
+
+			return repos, nil
+		}, nil)
+
+		ga.wp.AddTask(t)
+	}
+
+	wg.Wait()
+
+	return nil
+}
 
 // https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#list-organization-repositories
 func (ga *GitApi) GetReposByOrg(ctx context.Context, org string, toPage, perPage int) (*[]*repos.Repo, error) {

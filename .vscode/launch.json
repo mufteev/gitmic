@@ -9,7 +9,7 @@
       "type": "go",
       "request": "launch",
       "mode": "auto",
-      "program": "./cmd/repos-concurrency/main.go",
+      "program": "./cmd/repos-pool/main.go",
       "cwd": "."
     }
   ]

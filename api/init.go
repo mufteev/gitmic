@@ -3,6 +3,7 @@ package api
 import (
 	"encoding/json"
 	"fmt"
+	"gitmic/workerpool"
 	"net/http"
 	"reflect"
 )
@@ -11,16 +12,19 @@ import (
 type GitApi struct {
 	token *string
 	Host  string
+
+	wp *workerpool.Pool
 }
 
 // Хост по умолчанию
 const defaultHost = "https://api.github.com"
 
 // Функция-конструктор для объекта API с указанием списка параметров
-func NewGitApi(opts ...ApiOption) (*GitApi, error) {
+func NewGitApi(wp *workerpool.Pool, opts ...ApiOption) (*GitApi, error) {
 	// Начальное объявление GitApi
 	ga := &GitApi{
 		Host: defaultHost,
+		wp:   wp,
 	}
 
 	// Проход по списку параметров, которые реализуют паттерн функциональных опций

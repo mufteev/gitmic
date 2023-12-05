@@ -16,7 +16,7 @@ func RunSimple(isPrintData bool) error {
 	ctx := context.TODO()
 
 	// Получаем объект GitApi с указанным токеном
-	ga, err := api.NewGitApi(api.WithGitToken(env.GIT_TOKEN))
+	ga, err := api.NewGitApi(nil, api.WithGitToken(env.GIT_TOKEN))
 	if err != nil {
 		return fmt.Errorf("new git api: %w", err)
 	}
@@ -63,7 +63,7 @@ func RunConcurrency(isPrintData bool) error {
 	ctx := context.Background()
 
 	// Получаем объект GitApi с указанным токеном
-	ga, err := api.NewGitApi(api.WithGitToken(env.GIT_TOKEN))
+	ga, err := api.NewGitApi(nil, api.WithGitToken(env.GIT_TOKEN))
 	if err != nil {
 		return fmt.Errorf("new git api: %w", err)
 	}
