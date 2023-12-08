@@ -5,16 +5,11 @@ import (
 )
 
 type Pool struct {
-	// workOnDuring  chan struct{}
+	sem *semaphore.Semaphore
+
 	collector   chan *Task
 	workers     []*worker
 	workerCount int
-
-	sem *semaphore.Semaphore
-	// timesOnDuring int
-	// timeWork      time.Duration
-	// timeSleep time.Duration
-	// collectorCount int
 }
 
 func NewPool(workerCount, collectorCount int, sem *semaphore.Semaphore) *Pool {

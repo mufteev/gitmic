@@ -7,16 +7,16 @@ import (
 )
 
 type Semaphore struct {
-	t1             time.Duration // T1
-	t2             time.Duration // T2
-	baseTickets    int           // bN
-	currentTickets int           // cN
-
 	quitChan chan struct{}
 
 	mxAccept       *sync.Mutex
 	mxTicket       *sync.Mutex
 	ticketReleaser *time.Ticker
+
+	t1             time.Duration // T1
+	t2             time.Duration // T2
+	baseTickets    int           // bN
+	currentTickets int           // cN
 }
 
 func (s *Semaphore) Acquire() {
@@ -35,6 +35,7 @@ func (s *Semaphore) Acquire() {
 			s.mxAccept.Unlock()
 		})
 	}
+
 	s.mxAccept.Lock()
 	defer s.mxAccept.Unlock()
 }

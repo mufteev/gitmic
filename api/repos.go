@@ -17,14 +17,14 @@ func (ga *GitApi) GetReposByOrgPool(ctx context.Context, org string, to int) err
 
 	for i := 1; i <= to; i++ {
 		wg.Add(1)
-		ii := i
 
+		ii := i
 		t := workerpool.NewTask(func() (interface{}, error) {
 			defer wg.Done()
 
 			repos, _, err := getReposByOrg(ctx, ga, org, ii, 1)
 			if err != nil {
-				log.Printf("err repos by org: %w", err)
+				log.Printf("err repos by org: %v", err)
 				return nil, fmt.Errorf("get repos by org: %w", err)
 			}
 

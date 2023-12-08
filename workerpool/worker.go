@@ -3,12 +3,12 @@ package workerpool
 import "gitmic/semaphore"
 
 type worker struct {
-	n int
+	sem *semaphore.Semaphore
 
-	// workOnDuring <-chan struct{}
-	sem      *semaphore.Semaphore
 	taskChan chan *Task
 	quitChan chan bool
+
+	n int
 }
 
 func newWorker(n int, sem *semaphore.Semaphore, ch chan *Task) *worker {

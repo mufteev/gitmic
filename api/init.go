@@ -7,15 +7,14 @@ import (
 	"io"
 	"net/http"
 	"reflect"
-	"time"
 )
 
 // Основной объект API, который будет содержать в себе адрес хоста и токен
 type GitApi struct {
 	token *string
-	Host  string
+	wp    *workerpool.Pool
 
-	wp *workerpool.Pool
+	Host string
 }
 
 // Хост по умолчанию
@@ -66,8 +65,6 @@ func doRequest(r *http.Request, initResponse interface{}) (*http.Header, error) 
 		return nil, fmt.Errorf("init response not pointer")
 	}
 
-	t := time.Now()
-
 	// Выполняем HTTP-запрос через стандартный клиент (можно реализовывать кастомный)
 	httpResponse, err := http.DefaultClient.Do(r)
 	if err != nil {
@@ -87,8 +84,6 @@ func doRequest(r *http.Request, initResponse interface{}) (*http.Header, error) 
 	if err := json.Unmarshal(buf, initResponse); err != nil {
 		return nil, fmt.Errorf("response body unmarshal json: %w [%s](%s)", err, httpResponse.Status, string(buf))
 	}
-
-	fmt.Println(time.Since(t))
 
 	return &httpResponse.Header, nil
 }

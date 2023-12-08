@@ -21,7 +21,6 @@ var (
 )
 
 func NewTask(f func() (interface{}, error), timeout *time.Duration) *Task {
-
 	if timeout == nil {
 		timeout = &defaultDuration
 	}
