@@ -30,7 +30,7 @@ func (ga *GitApi) GetReposByOrgPool(ctx context.Context, org string, to int) err
 
 			fmt.Printf("%s\n", (*repos)[0].FullName)
 
-			// time.Sleep(time.Second * 10)
+			// time.Sleep(time.Second * 1)
 
 			return repos, nil
 		}, nil)
