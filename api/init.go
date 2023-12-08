@@ -4,8 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"gitmic/workerpool"
+	"io"
 	"net/http"
 	"reflect"
+	"time"
 )
 
 // Основной объект API, который будет содержать в себе адрес хоста и токен
@@ -64,6 +66,8 @@ func doRequest(r *http.Request, initResponse interface{}) (*http.Header, error) 
 		return nil, fmt.Errorf("init response not pointer")
 	}
 
+	t := time.Now()
+
 	// Выполняем HTTP-запрос через стандартный клиент (можно реализовывать кастомный)
 	httpResponse, err := http.DefaultClient.Do(r)
 	if err != nil {
@@ -74,10 +78,17 @@ func doRequest(r *http.Request, initResponse interface{}) (*http.Header, error) 
 	// Проэкспериментируйте и удалите слово defer
 	defer httpResponse.Body.Close()
 
-	// Декодируем байты в структуру или массив структур с готовыми json-тегами
-	if err := json.NewDecoder(httpResponse.Body).Decode(initResponse); err != nil {
-		return nil, fmt.Errorf("response body unmarshal json: %w", err)
+	buf, err := io.ReadAll(httpResponse.Body)
+	if err != nil {
+		return nil, fmt.Errorf("read body: %w", err)
 	}
+
+	// Декодируем байты в структуру или массив структур с готовыми json-тегами
+	if err := json.Unmarshal(buf, initResponse); err != nil {
+		return nil, fmt.Errorf("response body unmarshal json: %w [%s](%s)", err, httpResponse.Status, string(buf))
+	}
+
+	fmt.Println(time.Since(t))
 
 	return &httpResponse.Header, nil
 }

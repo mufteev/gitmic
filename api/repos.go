@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"gitmic/api/orgs/repos"
 	"gitmic/workerpool"
+	"log"
 	"net/http"
 	"sync"
 
@@ -23,6 +24,7 @@ func (ga *GitApi) GetReposByOrgPool(ctx context.Context, org string, to int) err
 
 			repos, _, err := getReposByOrg(ctx, ga, org, ii, 1)
 			if err != nil {
+				log.Printf("err repos by org: %w", err)
 				return nil, fmt.Errorf("get repos by org: %w", err)
 			}
 

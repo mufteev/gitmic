@@ -1,31 +1,34 @@
 package workerpool
 
+import "gitmic/semaphore"
+
 type worker struct {
 	n int
 
-	workOnDuring <-chan struct{}
-	taskChan     chan *Task
-	quitChan     chan bool
+	// workOnDuring <-chan struct{}
+	sem      *semaphore.Semaphore
+	taskChan chan *Task
+	quitChan chan bool
 }
 
-func newWorker(n int, timesOnDuring <-chan struct{}, ch chan *Task) *worker {
+func newWorker(n int, sem *semaphore.Semaphore, ch chan *Task) *worker {
 	return &worker{
-		n:            n,
-		taskChan:     ch,
-		quitChan:     make(chan bool),
-		workOnDuring: timesOnDuring,
+		n:        n,
+		taskChan: ch,
+		sem:      sem,
+		quitChan: make(chan bool),
 	}
 }
 
 func (w *worker) startBackground() {
 	for {
-		<-w.workOnDuring
 		select {
 		case <-w.quitChan:
 			return
 
 		case task := <-w.taskChan:
 			process(task)
+			w.sem.Release()
 		}
 	}
 }
