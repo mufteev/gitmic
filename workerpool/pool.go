@@ -27,6 +27,8 @@ func (p *Pool) AddTask(t *Task) {
 }
 
 func (p *Pool) RunBackground() {
+	go p.sem.Run()
+
 	for i := 0; i < p.workerCount; i++ {
 		w := newWorker(i, p.sem, p.collector)
 		p.workers[i] = w
