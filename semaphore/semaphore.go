@@ -23,7 +23,6 @@ func (s *Semaphore) Acquire() {
 	s.mxTicket.Lock()
 	s.currentTickets++
 	fmt.Printf("currentTickets - %d\n", s.currentTickets)
-	s.mxTicket.Unlock()
 
 	if s.currentTickets == s.baseTickets {
 		fmt.Printf("sleep - %d\n", s.currentTickets)
@@ -35,6 +34,7 @@ func (s *Semaphore) Acquire() {
 			s.mxAccept.Unlock()
 		})
 	}
+	s.mxTicket.Unlock()
 
 	s.mxAccept.Lock()
 	defer s.mxAccept.Unlock()
@@ -43,7 +43,9 @@ func (s *Semaphore) Acquire() {
 func (s *Semaphore) Release() {
 	s.mxTicket.Lock()
 	defer s.mxTicket.Unlock()
-	s.currentTickets--
+	if s.currentTickets > 0 {
+		s.currentTickets--
+	}
 }
 
 func NewSemaphore(tickets int, t1, t2 time.Duration) *Semaphore {
